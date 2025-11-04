@@ -274,3 +274,4 @@ WHERE DATE_TRUNC('month', dam.dat_reference) = DATE '2025-09-01'
 GROUP BY 1,2,3,4
 ORDER BY 1,3;
 
+a
