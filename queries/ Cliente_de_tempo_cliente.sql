@@ -1,17 +1,5 @@
 WITH meses AS (
-    SELECT CAST('2023-01-01' AS DATE) AS mes_ref UNION ALL
-    SELECT '2023-02-01' UNION ALL
-    SELECT '2023-03-01' UNION ALL
-    SELECT '2023-04-01' UNION ALL
-    SELECT '2023-05-01' UNION ALL
-    SELECT '2023-06-01' UNION ALL
-    SELECT '2023-07-01' UNION ALL
-    SELECT '2023-08-01' UNION ALL
-    SELECT '2023-09-01' UNION ALL
-    SELECT '2023-10-01' UNION ALL
-    SELECT '2023-11-01' UNION ALL
-    SELECT '2023-12-01' UNION ALL
-    SELECT '2024-01-01' UNION ALL
+    SELECT CAST('2024-01-01' AS DATE) AS mes_ref UNION ALL
     SELECT '2024-02-01' UNION ALL
     SELECT '2024-03-01' UNION ALL
     SELECT '2024-04-01' UNION ALL
@@ -57,7 +45,7 @@ dam_por_mes AS (
         MAX(dam.dat_reference) AS ultimo_dam
     FROM dax.analytical_customer_transactions dam
     WHERE dam.idt_financial_service IN (21053,21063,21083,21073,21093,21096)
-      AND dam.dat_reference >= DATE '2023-01-01'
+      AND dam.dat_reference >= DATE '2024-01-01'
       AND dam.dat_reference <= CURRENT_DATE
     GROUP BY 1
 ),
@@ -87,14 +75,15 @@ clientes_produtos_mes AS (
             WHEN 21073 THEN 'Renda Variável'
             WHEN 21093 THEN 'RF3'
             WHEN 21096 THEN 'Compromissada'
-            WHEN 21053 THEN 'Outros'
+            WHEN 21053 THEN 'CDB'
+            ELSE 'OUTROS'
         END) AS qtd_produtos_cliente
     FROM dax.analytical_customer_transactions dam
     JOIN cortes_por_mes cut
       ON DATE_TRUNC('month', dam.dat_reference)::date = cut.mes_ref
      AND dam.dat_reference = cut.dia_corte
     WHERE dam.idt_financial_service IN (21053,21063,21083,21073,21093,21096)
-      AND dam.dat_reference >= DATE '2023-01-01'
+      AND dam.dat_reference >= DATE '2024-01-01'
       AND dam.dat_reference <  DATE '2026-01-01'
     GROUP BY 1,2
 ),
